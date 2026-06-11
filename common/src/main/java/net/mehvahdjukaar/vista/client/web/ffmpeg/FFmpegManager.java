@@ -154,29 +154,36 @@ public final class FFmpegManager {
         }
     }
 
-    private enum OsType {
-        LINUX("linux", "ffmpeg", "ffprobe", true),
-        MACOS("macos", "ffmpeg", "ffprobe", true),
-        WINDOWS("windows", "ffmpeg.exe", "ffprobe.exe", false);
+   private enum OsType {
+    LINUX("linux", "ffmpeg", "ffprobe", true),
+    MACOS("macos", "ffmpeg", "ffprobe", true),
+    MACOS_ARM64("macos-arm64", "ffmpeg", "ffprobe", true),
+    WINDOWS("windows", "ffmpeg.exe", "ffprobe.exe", false);
 
-        private final String jsonKey;
-        private final String ffmpegName;
-        private final String ffprobeName;
-        private final boolean requiresExecutableBit;
+    private final String jsonKey;
+    private final String ffmpegName;
+    private final String ffprobeName;
+    private final boolean requiresExecutableBit;
 
-        OsType(String sourceKey, String ffmpegName, String ffprobeName, boolean requiresExecutableBit) {
-            this.jsonKey = sourceKey;
-            this.ffmpegName = ffmpegName;
-            this.ffprobeName = ffprobeName;
-            this.requiresExecutableBit = requiresExecutableBit;
-        }
-
-        private static OsType detect() {
-            if (Minecraft.ON_OSX) return MACOS;
-            String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
-            return os.contains("win") ? OsType.WINDOWS : OsType.LINUX;
-        }
+    OsType(String sourceKey, String ffmpegName, String ffprobeName, boolean requiresExecutableBit) {
+        this.jsonKey = sourceKey;
+        this.ffmpegName = ffmpegName;
+        this.ffprobeName = ffprobeName;
+        this.requiresExecutableBit = requiresExecutableBit;
     }
+
+    private static OsType detect() {
+        if (Minecraft.ON_OSX) {
+            String arch = System.getProperty("os.arch", "").toLowerCase(Locale.ROOT);
+            if (arch.equals("aarch64") || arch.equals("arm64")) {
+                return MACOS_ARM64;
+            }
+            return MACOS;
+        }
+        String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        return os.contains("win") ? OsType.WINDOWS : OsType.LINUX;
+    }
+}
 
 
 }
