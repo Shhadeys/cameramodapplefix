@@ -3,5 +3,5 @@
   "linux": "johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
   "windows": "gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
   "macos": "evermeet.cx/ffmpeg/getrelease/zip",
-  "macos-arm64": "https://www.osxexperts.net/ffmpeg7arm.zip"
+  "macos-arm64": "https://ffmpeg.martin-riedl.de/redirect/latest/macos/arm64/release/ffmpeg.zip"
 }
